@@ -1,27 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { Button } from "../styles/Button";
+
 import { FaDiscord, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <>
       <Wrapper>
-        <section className="contact-short">
-          <div className="grid grid-two-column">
-            <div>
-              <h3>Ready to get started?</h3>
-              <h3>Talk to us today</h3>
-            </div>
-
-            <div>
-              <Button className="btn hireme-btn">
-                <NavLink to="/products"> Get Started </NavLink>
-              </Button>
-            </div>
-          </div>
-        </section>
+       
         {/* footer section */}
 
         <footer>

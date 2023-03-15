@@ -8,7 +8,7 @@ import { useCartContext } from "../context/cart_context";
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
   const { total_item } = useCartContext();
-
+let token=JSON.parse(localStorage.getItem("yasir-ecommerce-token"))
   const Nav = styled.nav`
     .navbar-lists {
       display: flex;
@@ -166,10 +166,13 @@ const Nav = () => {
   return (
     <Nav>
       <div className={menuIcon ? "navbar active" : "navbar"}>
-        <ul className="navbar-lists">
+      
+        {
+          token? 
+          <ul className="navbar-lists">
           <li>
             <NavLink
-              to="/"
+              to="/home"
               className="navbar-link "
               onClick={() => setMenuIcon(false)}>
               Home
@@ -199,13 +202,34 @@ const Nav = () => {
               Contact
             </NavLink>
           </li>
+        
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />
               <span className="cart-total--item"> {total_item} </span>
             </NavLink>
+          </li></ul>:
+          <ul className="navbar-lists">
+          <li>
+            <NavLink
+              to="/"
+              className="navbar-link "
+              onClick={() => setMenuIcon(false)}>
+              Login
+            </NavLink>
           </li>
-        </ul>
+          <li>
+            <NavLink
+              to="/signup"
+              className="navbar-link "
+              onClick={() => setMenuIcon(false)}>
+              Sign Up
+            </NavLink>
+          </li></ul>
+        }
+      
+         
+        
 
         {/* two button for open and close of menu */}
         <div className="mobile-navbar-btn">
