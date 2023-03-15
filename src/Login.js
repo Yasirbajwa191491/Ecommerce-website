@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import {AiFillEye} from "react-icons/ai"
 import { NavLink,useNavigate } from 'react-router-dom'
 import { toast, ToastContainer} from 'react-toastify';
-import axios from 'axios';
   import "react-toastify/dist/ReactToastify.css";
   import { Checkbox } from 'react-input-checkbox';
 const Login = () => {
@@ -37,12 +36,6 @@ const Login = () => {
 		,body:JSON.stringify({email,password})
 	})
 	const response=await data.json();
-	// axios.post("http://localhost:8000/login",{
-	// 	email,password
-	// },{
-	// 	credentials: 'include' })
-		
-		// .then((response)=>{
 		if(response.message==='Login Success'){
 			toast.success("Login Successfully", {
 				position: toast.POSITION.TOP_RIGHT

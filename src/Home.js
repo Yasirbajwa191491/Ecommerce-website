@@ -6,29 +6,34 @@ import { NavLink,useNavigate } from "react-router-dom";
 import { Button } from "./styles/Button";
 import styled from "styled-components";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 const Home = () => {
+  const [mydata,setMyData]=useState({});
   const navigate=useNavigate();
   const data = {
-    name: "Yasir store",
+    name: "Yasir Ecommerce",
+    name:mydata.name
   };
 
-  const secureHandler=()=>{
-    try {
-      const response=axios.get("http://localhost:8000/secure",{
-        withCredentials:true
-      })
-      if(response.status===200){
-     
-      }else{
-        navigate("/")
-      }
-    } catch (error) {
-      console.log(error);
-      navigate("/");
+  
+  useEffect(()=>{
+    const secureHandler=async()=>{
+      try {
+        const response=await axios.get("http://localhost:8000/secure",{
+          withCredentials:true
+        })
+        if(response.status===200){
+      setMyData(response.data)
+        }else{
+          navigate("/")
+        }
+    }catch(err){
+      navigate("/")
+      console.log(err);
     }
   }
-  useEffect(()=>secureHandler(),[]);
+    secureHandler()
+  },[]);
   return (
     <>
       <HeroSection myData={data} />

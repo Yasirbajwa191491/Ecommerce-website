@@ -1,13 +1,33 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { NavLink,useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../context/cart_context";
-
+import axios from "axios";
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
+  const [security,setSecurity]=useState(false)
+  const navigate=useNavigate();
   const { total_item } = useCartContext();
+  useEffect(()=>{
+    const secureHandler=async()=>{
+      try {
+        const response=await axios.get("http://localhost:8000/secure",{
+          withCredentials:true
+        })
+        if(response.status===200){
+          setSecurity(true)
+        }else{
+          navigate("/")
+        }
+    }catch(err){
+      navigate("/")
+      console.log(err);
+    }
+  }
+    secureHandler()
+  },[]);
 let token=JSON.parse(localStorage.getItem("yasir-ecommerce-token"))
   const Nav = styled.nav`
     .navbar-lists {
@@ -168,7 +188,7 @@ let token=JSON.parse(localStorage.getItem("yasir-ecommerce-token"))
       <div className={menuIcon ? "navbar active" : "navbar"}>
       
         {
-          token? 
+          token && security? 
           <ul className="navbar-lists">
           <li>
             <NavLink

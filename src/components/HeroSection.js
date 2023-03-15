@@ -3,14 +3,14 @@ import styled from "styled-components";
 import { Button } from "../styles/Button";
 
 const HeroSection = ({ myData }) => {
-  const { name } = myData;
+  const { name,data } = myData;
 
   return (
     <Wrapper>
       <div className="container">
         <div className="grid grid-two-column">
           <div className="hero-section-data">
-            <p className="intro-data">Welcome to </p>
+            <p className="intro-data">{data} Welcome to </p>
             <h1> {name} </h1>
             <p>
             Yasir Ecommerce website for saleing Products.

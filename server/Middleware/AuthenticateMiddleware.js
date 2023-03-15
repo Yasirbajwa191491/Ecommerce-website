@@ -9,7 +9,9 @@ try {
   
   const verify=jwt.verify(token,process.env.SECRET_KEY);
   if(verify){
-   const productDetail=await Product.findOne({"tokens.token":token}).select("-password","-cpassword","-tokens")
+   const productDetail=await Product.findOne({"tokens.token":token}).select("-password -cpassword -tokens")
+  
+   res.send(req.rootUser=productDetail)
    req.rootUser=productDetail;
    req.token=token;
    req._id=productDetail._id

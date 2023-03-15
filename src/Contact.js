@@ -1,7 +1,10 @@
 import styled from "styled-components";
-
-const Contact = () => {
-  const Wrapper = styled.section`
+import { useEffect,useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer} from 'react-toastify';
+  import "react-toastify/dist/ReactToastify.css";
+const Wrapper = styled.section`
     padding: 9rem 0 5rem 0;
     text-align: center;
 
@@ -32,13 +35,55 @@ const Contact = () => {
       }
     }
   `;
+const Contact = () => {
+  const [username,setUsername]=useState("")
+  const [email,setEmail]=useState("")
+  const [message,setMessage]=useState("")
+  const navigate=useNavigate();
+
+  const messageHandler=async()=>{
+    try {
+      const response=await axios.post("http://localhost:8000/sendmessages",{
+        username,email,message
+      })
+      if(response.data.message==="Message Submitted"){
+        toast.success("Message Submitted", {
+          position: toast.POSITION.TOP_RIGHT
+          });
+          setMessage(" ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    const secureHandler=async()=>{
+      try {
+        const response=await axios.get("http://localhost:8000/secure",{
+          withCredentials:true
+        })
+        if(response.status===200){
+        setUsername(response.data.username)
+        setEmail(response.data.email)
+        }else{
+          navigate("/")
+        }
+    }catch(err){
+      navigate("/")
+      console.log(err);
+    }
+  }
+    secureHandler()
+  },[]);
+  
 
   return (
     <Wrapper>
+		<ToastContainer  />
       <h2 className="common-heading">Contact page</h2>
 
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.265588856342!2d73.91455641541671!3d18.562061287384868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20-%20Viman%20Nagar!5e0!3m2!1sen!2sin!4v1664345115285!5m2!1sen!2sin"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.929367191278!2d73.06780311510305!3d31.416072081404288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x392242bef30a05ed%3A0x39e814b7f874c28d!2sGovernment%20College%20University%20Faisalabad!5e0!3m2!1sen!2s!4v1678903927671!5m2!1sen!2s"
         width="100%"
         height="400"
         style={{ border: 0 }}
@@ -48,7 +93,7 @@ const Contact = () => {
 
       <div className="container">
         <div className="contact-form">
-          <form
+          <form onSubmit={(e)=>e.preventDefault()}
             action="https://formspree.io/f/xeqdgwnq"
             method="POST"
             className="contact-inputs">
@@ -58,14 +103,18 @@ const Contact = () => {
               name="username"
               required
               autoComplete="off"
+              value={username}
+              readOnly={true}
             />
 
             <input
               type="email"
+              value={email}
               name="Email"
               placeholder="Email"
               autoComplete="off"
               required
+              readOnly
             />
 
             <textarea
@@ -74,9 +123,11 @@ const Contact = () => {
               rows="10"
               required
               autoComplete="off"
-              placeholder="Enter you message"></textarea>
+              placeholder="Enter you message" value={message}
+              onChange={(e)=>setMessage(e.target.value)}
+              ></textarea>
 
-            <input type="submit" value="send" />
+            <input type="submit" value="send" onClick={messageHandler} />
           </form>
         </div>
       </div>

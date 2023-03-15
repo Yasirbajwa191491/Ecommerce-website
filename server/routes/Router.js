@@ -1,6 +1,8 @@
 const express=require("express");
 const router=express.Router();
 const Product=require("../Schema")
+const Subscribe=require("../Models/Subscribe")
+const Message=require("../Models/Message")
 const jwt = require('jsonwebtoken');
 const bcrypt=require("bcryptjs")
 const dotenv=require("dotenv");
@@ -87,8 +89,42 @@ try {
     
 }
 })
-
-
+//without middleware routes
+router.post("/subscribe",async(req,res)=>{
+    try {
+        const check=await Subscribe.findOne({email:req.body.email})
+        if(check){
+      res.status(200).send({message:"Email already exists"})
+        }else{
+            const newSubscribe=new Subscribe({email:req.body.email})
+            await newSubscribe.save(); 
+            res.status(201).send({message:"subscribed"})
+        }
+     
+    } catch (error) {
+       res.status(422).send(error) 
+    }
+})
+router.post("/sendmessages",async(req,res)=>{
+    try {
+        const {username,email,message}=req.body;
+        const check =await Message.findOne({email:email});
+        if(check){
+            check.usermessages=check.usermessages.concat({message})
+            await check.save();
+            res.status(201).send({message:"Message Submitted"})
+        }else{
+            const newmessage=new Message({username,email});
+            const checking=await newmessage.save();
+            checking.usermessages=checking.usermessages.concat({message})
+            
+            await checking.save();
+            res.status(201).send({message:"Message Submitted",checking})
+        }
+    } catch (error) {
+        res.status(422).send(error)  
+    }
+})
 //secure route
 router.get("/secure",AuthenticateMiddleware,(req,res)=>{
     if(req.rootUser){

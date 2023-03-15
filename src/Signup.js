@@ -27,7 +27,7 @@ const Signup = () => {
     const value=e.target.value
     setInputHandler({...inputHandler,[name]:value})
   }
-  const signupHandler=()=>{
+  const signupHandler=async()=>{
     const {name,username,email,password,cpassword,address}=inputHandler;
 if(!name || !username || !email || !password || !cpassword){
     toast.error("Please Enter required fields", {
@@ -49,14 +49,22 @@ if(!name || !username || !email || !password || !cpassword){
         setErrorCPassword('Enter Confirm Password')
       }
 }else{
-axios.post("http://localhost:8000/signup",{
-    name,username,email,password,cpassword,address  
-}).then((Response)=>{
-    console.log(Response.data.error,'response');
-    if(Response.data.message==='User Created'){
+const data=await fetch("http://localhost:8000/signup",{
+	method:'POST',
+		'credentials':'include',
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+		,body:JSON.stringify({name,username,email,password,cpassword,address})
+})
+const Response=await data.json()
+    if(Response.message==='User Created'){
         toast.success("User Created Successfully", {
             position: toast.POSITION.TOP_RIGHT
           });
+		  localStorage.setItem("yasir-ecommerce-token",JSON.stringify(Response.token))
+		
           setInputHandler({...inputHandler,
             email:'',
             password:'',
@@ -70,12 +78,12 @@ axios.post("http://localhost:8000/signup",{
         },2000)
 
     }else{
-        toast.error(Response.data.error
+        toast.error(Response.error
             , {
             position: toast.POSITION.TOP_RIGHT
           });
     }
-})
+
 }
   }
   const loginform=(e)=>{

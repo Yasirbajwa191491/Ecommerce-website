@@ -1,9 +1,33 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
-
+import axios from "axios";
+import { toast, ToastContainer} from 'react-toastify';
+  import "react-toastify/dist/ReactToastify.css";
 import { FaDiscord, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
+  const [email,setEmail]=useState("");
+  const subscireHandler=async()=>{
+  const response=await axios.post("http://localhost:8000/subscribe",{
+    email
+  })
+  if(response.data.message==="subscribed"){
+    toast.success("Thank You from Subscribed", {
+      position: toast.POSITION.TOP_RIGHT
+      });
+  }else if(response.data.message==="Email already exists"){
+    toast.error("Email Already Exists"
+      , {
+      position: toast.POSITION.TOP_RIGHT
+      });
+  }
+  else{
+    toast.error(response.data.error
+      , {
+      position: toast.POSITION.TOP_RIGHT
+      });
+  }
+  }
   return (
     <>
       <Wrapper>
@@ -11,6 +35,7 @@ const Footer = () => {
         {/* footer section */}
 
         <footer>
+		<ToastContainer  />
           <div className="container grid grid-four-column">
             <div className="footer-about">
               <h3>Yasir191491</h3>
@@ -18,10 +43,10 @@ const Footer = () => {
             </div>
             <div className="footer-subscribe">
               <h3>Subscribe to get important updates</h3>
-              <form action="#">
-                <input type="email" name="email" placeholder="YOUR E-MAIL" />
+              <form action="#" onSubmit={(e)=>e.preventDefault()}>
+                <input type="email" name="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="YOUR E-MAIL" />
 
-                <input type="submit" value="subscribe" />
+                <input type="submit" onClick={subscireHandler} value="subscribe" />
               </form>
             </div>
             <div className="footer-social">

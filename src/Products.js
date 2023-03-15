@@ -2,8 +2,29 @@ import styled from "styled-components";
 import FilterSection from "./components/FilterSection";
 import ProductList from "./components/ProductList";
 import Sort from "./components/Sort";
+import { useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
+  const navigate=useNavigate();
+  useEffect(()=>{
+    const secureHandler=async()=>{
+      try {
+        const response=await axios.get("http://localhost:8000/secure",{
+          withCredentials:true
+        })
+        if(response.status===200){
+        }else{
+          navigate("/")
+        }
+    }catch(err){
+      navigate("/")
+      console.log(err);
+    }
+  }
+    secureHandler()
+  },[]);
   return (
     <Wrapper>
       <div className="container grid grid-filter-column">
