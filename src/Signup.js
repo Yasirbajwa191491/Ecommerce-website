@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import {AiFillEye} from "react-icons/ai"
 import { NavLink,useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
   import "react-toastify/dist/ReactToastify.css";
 const Signup = () => {
     const [showPassword,setShowPassword]=useState(false)

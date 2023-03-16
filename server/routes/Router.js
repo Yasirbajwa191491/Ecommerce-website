@@ -134,4 +134,14 @@ router.get("/secure",AuthenticateMiddleware,(req,res)=>{
     }
     
 })
+
+//logout route
+router.get("/logout",(req,res)=>{
+    try {
+      res.clearCookie("ecommerce_token")  
+      res.status(200).send({message:"logout success"})
+    } catch (error) {
+        res.status(422).send(error)
+    }
+})
 module.exports=router;

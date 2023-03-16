@@ -1,13 +1,15 @@
-import {useState,useRef} from 'react'
+import {useState,useEffect} from 'react'
 import styled from 'styled-components'
 import {AiFillEye} from "react-icons/ai"
 import { NavLink,useNavigate } from 'react-router-dom'
 import { toast, ToastContainer} from 'react-toastify';
+import axios from 'axios';
   import "react-toastify/dist/ReactToastify.css";
   import { Checkbox } from 'react-input-checkbox';
 const Login = () => {
     const [showPassword,setShowPassword]=useState(false)
     const [password,setPassword]=useState('');
+	const [token,setToken]=useState("")
     const [ErrorPassword,setErrorPassword]=useState('');
     const [email,setEmail]=useState('');
     const [Erroremail,setErrorEmail]=useState('');
@@ -47,7 +49,6 @@ const Login = () => {
 					var date = new Date();
 					date.setTime(date.getTime() + 24 * 60 * 60 * 1000 * 3);//here is 3 days
 					window.document.cookie = "username" + "=" + email + ";path=" + 'yasir ecommerce' + "/#/;expires=" + date.toGMTString();
-					window.document.cookie = "password" + "=" + password + ";path=" + 'yasir ecommerce' + "/#/;expires=" + date.toGMTString();
 				
 			  }
 			  setTimeout(()=>{
@@ -62,13 +63,32 @@ const Login = () => {
 	// })
    }
   }
-  const checkboxHandler=(e)=>{
+  useEffect(()=>{
+    const secureHandler=async()=>{
+      try {
+        const response=await axios.get("http://localhost:8000/secure",{
+          withCredentials:true
+        })
+		
+		setToken(JSON.parse(localStorage.getItem("yasir-ecommerce-token")))
+        if(response.status===200 && token){
+			navigate("/home")
+        }
+    }catch(err){
+      console.log(err);
+    }
+
+  }
+    secureHandler() 
+  },[token,navigate]); 
+  
+ const checkboxHandler=(e)=>{
 	setRemember(e.target.checked);
-	console.log(remember);
   }
   const loginform=(e)=>{
 e.preventDefault();
   }
+
   return (
 	<Wrapper>
         <div className="container" style={{maxWidth:'100%'}}>
@@ -234,11 +254,11 @@ body {
 .login__input1 {
 	border: none;
 	border-bottom: 2px solid #D1D1D4;
-	background: none;
+	background: white;
 	padding: 10px;
 	padding-left: 24px;
 	font-weight: 700;
-	width: 75%;
+	width: 90%;
 	transition: .2s;
 }
 
@@ -255,7 +275,7 @@ body {
 	padding: 10px;
 	padding-left: 24px;
 	font-weight: 700;
-	width: 85%;
+	width: 100%;
 	transition: .2s;
 }
 
