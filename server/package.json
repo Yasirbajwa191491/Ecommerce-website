@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"index.js",
-    "build":"npm i"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@testing-library/user-event": "^14.4.3",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -20,6 +20,7 @@
     "mongoose": "^7.0.1",
     "mongoose-auto-increment": "^5.0.1",
     "multer": "^1.4.5-lts.1",
+    "uuid": "^9.0.0",
     "uuidv4": "^6.2.13",
     "validator": "^13.9.0"
   }

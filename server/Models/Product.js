@@ -1,4 +1,3 @@
-const { type } = require("@testing-library/user-event/dist/type");
 const {Schema,model}=require("mongoose");
 
 const  productSchema=new Schema({
