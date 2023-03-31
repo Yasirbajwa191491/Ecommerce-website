@@ -17,7 +17,7 @@ const Logout = () => {
 			  });
             localStorage.clear();
             setTimeout(()=>{
-				navigate("/home")
+				navigate("/")
 			},500)
         }
         }

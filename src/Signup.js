@@ -74,7 +74,7 @@ const Response=await data.json()
         })
         setTimeout(()=>{
             navigate("/home")
-        },2000)
+        },100)
 
     }else{
         toast.error(Response.error

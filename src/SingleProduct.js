@@ -11,7 +11,7 @@ import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
 
-const API = "https://api.pujakaitem.com/api/products";
+// const API = "https://api.pujakaitem.com/api/products";
 
 const SingleProduct = () => {
   const { getSingleProduct, isSingleLoading, singleProduct } =
@@ -31,7 +31,8 @@ const SingleProduct = () => {
   } = singleProduct;
 
   useEffect(() => {
-    getSingleProduct(`${API}?id=${id}`);
+    // getSingleProduct(`${API}?id=${id}`);
+    getSingleProduct(`http://localhost:8000/dashboard/product_singlelist/${id}`);
   }, []);
 
   if (isSingleLoading) {
@@ -56,7 +57,7 @@ const SingleProduct = () => {
             <p className="product-data-price">
               MRP:
               <del>
-                <FormatPrice price={price + 250000} />
+                <FormatPrice price={price + 25000} />
               </del>
             </p>
             <p className="product-data-price product-data-real-price">

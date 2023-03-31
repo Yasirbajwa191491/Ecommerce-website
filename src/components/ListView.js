@@ -12,7 +12,8 @@ const ListView = ({ products }) => {
           return (
             <div className="card grid grid-two-column">
               <figure>
-                <img src={image} alt={name} />
+            
+                <img src={image[0].url} alt={name}   style={{objectFit:'cover'}} width={300}  />
               </figure>
 
               <div className="card-data">

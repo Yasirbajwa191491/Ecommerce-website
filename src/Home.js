@@ -12,7 +12,7 @@ const Home = () => {
   const navigate=useNavigate();
   const data = {
     name: "Yasir Ecommerce",
-    name:mydata.name
+    data:mydata.name
   };
 
   

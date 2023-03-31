@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink,useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
@@ -164,25 +164,29 @@ const Nav = () => {
   const [token,setToken]=useState("");
   const [security,setSecurity]=useState(false)
   const navigate=useNavigate();
+  const location=useLocation()
   const { total_item } = useCartContext();
   useEffect(()=>{
-    const secureHandler=async()=>{
-      try {
-        const response=await axios.get("http://localhost:8000/secure",{
-          withCredentials:true
-        })
-        if(response.status===200){
-          setSecurity(true)
-        }else{
-          navigate("/")
-        }
-    }catch(err){
-      navigate("/")
-      console.log(err);
+    if(location.pathname !=='/signup'){
+      const secureHandler=async()=>{
+        try {
+          const response=await axios.get("http://localhost:8000/secure",{
+            withCredentials:true
+          })
+          if(response.status===200){
+            setSecurity(true)
+          }else{
+            navigate("/")
+          }
+      }catch(err){
+        navigate("/")
+        console.log(err);
+      }
+  
     }
-
-  }
-    secureHandler()
+      secureHandler()
+    }
+   
     setToken(JSON.parse(localStorage.getItem("yasir-ecommerce-token")))   
   },[token,navigate]);
 

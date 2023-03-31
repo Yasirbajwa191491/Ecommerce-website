@@ -1,5 +1,5 @@
 const jwt=require("jsonwebtoken");
-const Product=require("../Schema");
+const User=require("../Schema");
 const dotenv=require("dotenv");
 dotenv.config({path:'./config.env'});
 
@@ -9,12 +9,10 @@ try {
   
   const verify=jwt.verify(token,process.env.SECRET_KEY);
   if(verify){
-   const productDetail=await Product.findOne({"tokens.token":token}).select("-password -cpassword -tokens")
+   const productDetail=await User.findOne({"tokens.token":token}).select("-password -cpassword -tokens")
   
-   res.send(req.rootUser=productDetail)
    req.rootUser=productDetail;
-   req.token=token;
-   req._id=productDetail._id
+   req.token=token
    next();
   }else{
     res.status(401).send({error:"Un-Authorized User: No token provided"})

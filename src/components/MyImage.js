@@ -11,6 +11,9 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
           return (
             <figure key={index}>
               <img
+              height={130}
+              style={{objectFit:'cover'}}
+              width={350}
                 src={curElm.url}
                 alt={curElm.filename}
                 className="box-image--style"

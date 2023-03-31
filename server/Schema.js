@@ -52,6 +52,6 @@ productSchema.pre("save",async function(next){
        }
        next();
 })
-const Product=model("Product",productSchema);
+const User=model("User",productSchema);
 
-module.exports=Product;
+module.exports=User;

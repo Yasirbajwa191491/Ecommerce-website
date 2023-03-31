@@ -53,14 +53,13 @@ const Login = () => {
 			  }
 			  setTimeout(()=>{
 				navigate("/home")
-			},2000)
+			},100)
 		}else{
 			toast.error(response.error
 				, {
 				position: toast.POSITION.TOP_RIGHT
 			  });
 		}
-	// })
    }
   }
   useEffect(()=>{
