@@ -43,6 +43,7 @@ const Login = () => {
 				position: toast.POSITION.TOP_RIGHT
 			  });
 			  localStorage.setItem("yasir-ecommerce-token",JSON.stringify(response.token))
+			  localStorage.setItem("user_details",JSON.stringify(response.token))
 			  setEmail('')
 			  setPassword('')
 			  if(remember===true){
